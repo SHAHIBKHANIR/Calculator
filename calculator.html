@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title> Calculator</title>
+  <link rel="stylesheet" href="calculator.css">
+</head>
+<body>
+  <div class="calculator-container">
+    <h2> Calculator</h2>
+    <input type="text" id="display" placeholder="0" readonly>
+    
+    <div class="buttons">
+      <button onclick="appendNumber('7')">7</button>
+      <button onclick="appendNumber('8')">8</button>
+      <button onclick="appendNumber('9')">9</button>
+      <button onclick="appendOperator('/')">÷</button>
+
+      <button onclick="appendNumber('4')">4</button>
+      <button onclick="appendNumber('5')">5</button>
+      <button onclick="appendNumber('6')">6</button>
+      <button onclick="appendOperator('*')">×</button>
+
+      <button onclick="appendNumber('1')">1</button>
+      <button onclick="appendNumber('2')">2</button>
+      <button onclick="appendNumber('3')">3</button>
+      <button onclick="appendOperator('-')">−</button>
+
+      <button onclick="appendNumber('0')">0</button>
+      <button onclick="appendDot()">.</button>
+      <button onclick="clearDisplay()">C</button>
+      <button onclick="appendOperator('+')">+</button>
+
+      <button class="equal-btn" onclick="calculateResult()">=</button>
+    </div>
+
+    <h3 id="result">Result: </h3>
+  </div>
+
+  <script>
+    let display = document.getElementById("display");
+    let result = document.getElementById("result");
+
+    function appendNumber(num) {
+      display.value += num;
+    }
+
+    function appendOperator(op) {
+      if (display.value !== '' && !isOperator(display.value.slice(-1))) {
+        display.value += op;
+      }
+    }
+
+    function appendDot() {
+      const parts = display.value.split(/[\+\-\*\/]/);
+      if (!parts[parts.length - 1].includes(".")) {
+        display.value += ".";
+      }
+    }
+
+    function isOperator(char) {
+      return ['+', '-', '*', '/'].includes(char);
+    }
+
+    function clearDisplay() {
+      display.value = '';
+      result.innerText = "Result:";
+    }
+
+    function calculateResult() {
+      try {
+        const output = eval(display.value);
+        result.innerText = "Result: " + output;
+      } catch (e) {
+        result.innerText = "Result: Error";
+      }
+    }
+  </script>
+</body>
+</html>
