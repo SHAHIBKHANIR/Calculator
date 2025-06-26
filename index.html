@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title> Calculator</title>
+  <title>Calculator</title>
   <link rel="stylesheet" href="index.css">
 </head>
 <body>
   <div class="calculator-container">
-    <h2> Calculator</h2>
+    <h2>Calculator</h2>
     <input type="text" id="display" placeholder="0" readonly>
-    
+
     <div class="buttons">
       <button onclick="appendNumber('7')">7</button>
       <button onclick="appendNumber('8')">8</button>
@@ -28,18 +28,23 @@
 
       <button onclick="appendNumber('0')">0</button>
       <button onclick="appendDot()">.</button>
+      <button onclick="backspace()">⌫</button>
       <button onclick="clearDisplay()">C</button>
+
+      <button onclick="calculateSquareRoot()">√</button>
+      <button onclick="calculateSquare()">x²</button>
+      <button onclick="calculateReciprocal()">1/x</button>
       <button onclick="appendOperator('+')">+</button>
 
       <button class="equal-btn" onclick="calculateResult()">=</button>
     </div>
 
-    <h3 id="result">Result: </h3>
+    <h3 id="result">Result:</h3>
   </div>
 
   <script>
-    let display = document.getElementById("display");
-    let result = document.getElementById("result");
+    const display = document.getElementById("display");
+    const result = document.getElementById("result");
 
     function appendNumber(num) {
       display.value += num;
@@ -67,10 +72,56 @@
       result.innerText = "Result:";
     }
 
+    function backspace() {
+      display.value = display.value.slice(0, -1);
+    }
+
     function calculateResult() {
       try {
         const output = eval(display.value);
         result.innerText = "Result: " + output;
+        display.value = output;
+      } catch (e) {
+        result.innerText = "Result: Error";
+      }
+    }
+
+    function calculateSquareRoot() {
+      try {
+        const value = eval(display.value);
+        if (value < 0) {
+          result.innerText = "Result: Invalid (√ of negative)";
+        } else {
+          const output = Math.sqrt(value);
+          result.innerText = "Result: " + output;
+          display.value = output;
+        }
+      } catch (e) {
+        result.innerText = "Result: Error";
+      }
+    }
+
+    function calculateSquare() {
+      try {
+        const value = eval(display.value);
+        const output = value * value;
+        result.innerText = "Result: " + output;
+        display.value = output;
+      } catch (e) {
+        result.innerText = "Result: Error";
+      }
+    }
+
+    function calculateReciprocal() {
+      try {
+        const value = eval(display.value);
+        if (value === 0) {
+          result.innerText = "Result: Cannot divide by 0";
+        } else {
+          const output = 1 / value;
+          result.innerText = "Result: " + output;
+          display.value = output;
+        }
       } catch (e) {
         result.innerText = "Result: Error";
       }
